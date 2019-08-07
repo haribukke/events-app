@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { EventsService } from 'src/app/services/events/events.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-create-event',
@@ -11,7 +13,9 @@ export class CreateEventComponent implements OnInit {
   submitted: boolean = false;
 
   constructor(
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private eventsService: EventsService,
+    private router: Router
   ) { }
 
   ngOnInit() {
@@ -34,5 +38,10 @@ export class CreateEventComponent implements OnInit {
       return
     }
     console.log('form val', this.eventForm.value)
+    this.eventsService.createEvent(this.eventForm.value)
+      .subscribe(data=>{
+        console.log(data);
+        this.router.navigateByUrl('/dashboard')
+      })
   }
 }

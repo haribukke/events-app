@@ -5,6 +5,7 @@ import { delay, mergeMap, materialize, dematerialize } from 'rxjs/operators';
 
 // array in local storage for registered users
 let users = JSON.parse(localStorage.getItem('users')) || [];
+let events = JSON.parse(localStorage.getItem('events')) || [];
 
 @Injectable()
 export class FakeBackendInterceptor implements HttpInterceptor {
@@ -65,11 +66,17 @@ export class FakeBackendInterceptor implements HttpInterceptor {
         }
 
         function createEvent() {
+            const event = body;
+            event.id = events.length ? Math.max(...events.map(x => x.id)) + 1 : 1;
+            events.push(event);
+            localStorage.setItem('events', JSON.stringify(events))
             return ok();
         }
 
         function getEvents() {
-            return ok();
+            return ok({
+                events
+            });
         }
         // helper functions
 

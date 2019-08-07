@@ -1,5 +1,8 @@
 <p>Welcome</p>
 <div>
   <button routerLink="/create-event">Create Event</button>
-  <div *ngFor="let event of events"></div>
+  <div *ngFor="let event of events">
+    <p>{{event.name}}</p>
+    <p>{{event.description}}</p>
+  </div>
 </div>
