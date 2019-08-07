@@ -8,6 +8,12 @@ import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { CreateEventComponent } from './components/create-event/create-event.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { fakeBackendProvider } from './_interceptors/fake-backend';
+
+const providers = [
+  fakeBackendProvider,
+]
 
 @NgModule({
   declarations: [
@@ -20,9 +26,10 @@ import { CreateEventComponent } from './components/create-event/create-event.com
   imports: [
     BrowserModule,
     AppRoutingModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    BrowserAnimationsModule
   ],
-  providers: [],
+  providers,
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -21,6 +21,7 @@ export class CreateEventComponent implements OnInit {
     name: ['', Validators.required],
     description: ['', Validators.required],
     duration: [''],
+    date: ['', Validators.required],
     location: ['', Validators.required],
     fees: [''],
     tags: [''],
