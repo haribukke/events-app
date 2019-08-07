@@ -1,0 +1,11 @@
+<h1>Create Event</h1>
+<form [formGroup]="eventForm">
+  <input type="text" formControlName="name" placeholder="Name Of Event">
+  <input type="text" formControlName="description" placeholder="Description">
+  <input type="text" formControlName="duration" placeholder="Duration of Event">
+  <input type="text" formControlName="location" placeholder="Address">
+  <input type="text" formControlName="fees" placeholder="Fees">
+  <input type="text" formControlName="tags" placeholder="Tags">
+  <input type="number" formControlName="maxParticipants" placeholder="Maximum number of Participants">
+  <button type="submit" (click)="createEvent()">Create Event</button>
+</form>

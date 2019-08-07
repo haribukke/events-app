@@ -1,0 +1,12 @@
+<form [formGroup]="registerForm">
+  <input type="text" formControlName="name" placeholder="UserName">
+  <div *ngIf="submitted && f.name.errors">
+    <p *ngIf="f.name.errors.required">Name is required</p>
+  </div>
+  <input type="password" formControlName="password" placeholder="password">
+  <div *ngIf="submitted && f.password.errors">
+    <p *ngIf="f.password.errors.required">password is required</p>
+  </div>
+  <button type="submit" (click)="register()">Register</button>
+</form>
+<a routerLink="/login">Login</a>
