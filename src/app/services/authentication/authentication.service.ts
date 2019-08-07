@@ -7,6 +7,9 @@ import { AppConstants } from '../../constants/app.constants';
 })
 export class AuthenticationService {
 
+  token: string;
+  id: number;
+
   constructor(
     private http: HttpClient
   ) { }
@@ -19,5 +22,23 @@ export class AuthenticationService {
   login(obj) {
     let url = AppConstants.loginUrl;
     return this.http.post(url, obj)
+  }
+
+  setUserId(id) {
+    this.id = id;
+    localStorage.setItem('userId', id);
+  }
+
+  setToken(token) {
+    this.token = token;
+    localStorage.setItem('access-token', token);
+  }
+
+  getAuthorizationToken() {
+    return this.token || localStorage.getItem('access-token');
+  }
+
+  getUserId() {
+    return this.id || localStorage.getItem('userId')
   }
 }

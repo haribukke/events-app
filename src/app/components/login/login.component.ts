@@ -35,8 +35,10 @@ export class LoginComponent implements OnInit {
     }
     let userObj = this.loginForm.value;
     this.authenticationService.login(userObj)
-      .subscribe(data => {
-        this.router.navigateByUrl('/dashboard')
+      .subscribe((data: any) => {
+        this.authenticationService.setToken(data.token);
+        this.authenticationService.setUserId(data.id);
+        this.router.navigateByUrl('/dashboard');
       }, err => {
         console.log(err, err.error.message)
       })
