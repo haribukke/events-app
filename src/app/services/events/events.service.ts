@@ -21,4 +21,16 @@ export class EventsService {
     let url = AppConstants.eventsUrl;
     return this.http.get(url);
   }
+
+  attendEvent(eventId, userId) {
+    let url = AppConstants.eventsAttendUrl;
+    let obj = { eventId, userId }
+    return this.http.post(url, obj)
+  }
+
+  unAttendEvent(eventId, userId) {
+    let url = AppConstants.eventsUnAttendUrl;
+    let obj = { eventId, userId }
+    return this.http.post(url, obj)
+  }
 }

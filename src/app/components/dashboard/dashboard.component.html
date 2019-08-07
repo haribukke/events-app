@@ -5,6 +5,10 @@
   <div *ngFor="let event of events">
     <p>{{event.name}}</p>
     <p>{{event.description}}</p>
+    <button *ngIf="event.createdBy!=userId && !event.attendedByUser" (click)="attendEvent(event.id,userId)">
+      Attend</button>
+      <button *ngIf="event.createdBy!=userId && event.attendedByUser" (click)="unAttendEvent(event.id,userId)">
+        UnAttend</button>
   </div>
   <h2>My events</h2>
   <div *ngFor="let event of myEvents">

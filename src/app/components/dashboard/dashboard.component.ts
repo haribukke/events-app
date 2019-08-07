@@ -11,6 +11,7 @@ export class DashboardComponent implements OnInit {
 
   events: any;
   myEvents: any;
+  userId: string | number;
 
   constructor(
     private eventsService: EventsService,
@@ -18,13 +19,47 @@ export class DashboardComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.userId = this.authenticationService.getUserId()
 
     this.eventsService.getEvents()
       .subscribe((data: any) => {
-        console.log('data', data)
+
         this.events = data.events;
-        this.myEvents = data.events.filter(x => x.createdBy == this.authenticationService.getUserId())
+        this.events.map(event => {
+          console.log('event aten', event.attendance.filter(x => x == this.userId))
+          event.attendedByUser = event.attendance.filter(x => x == this.userId).length > 0
+        })
+        this.myEvents = data.events.filter(x => x.createdBy == this.userId)
+        console.log('data', this.events)
       })
+  }
+
+  attendEvent(id, userId) {
+    this.eventsService.attendEvent(id, userId)
+      .subscribe((data: any) => {
+
+        this.events = data.events;
+        this.events.map(event => {
+          console.log('event aten', event.attendance.filter(x => x == this.userId))
+          event.attendedByUser = event.attendance.filter(x => x == this.userId).length > 0
+        })
+        this.myEvents = data.events.filter(x => x.createdBy == this.userId)
+        console.log('events', this.events)
+      })
+  }
+
+  unAttendEvent(id, userId){
+    this.eventsService.unAttendEvent(id, userId)
+    .subscribe((data: any) => {
+
+      this.events = data.events;
+      this.events.map(event => {
+        console.log('event aten', event.attendance.filter(x => x == this.userId))
+        event.attendedByUser = event.attendance.filter(x => x == this.userId).length > 0
+      })
+      this.myEvents = data.events.filter(x => x.createdBy == this.userId)
+      console.log('events', this.events)
+    })
   }
 
 }

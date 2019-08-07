@@ -6,6 +6,7 @@ import { delay, mergeMap, materialize, dematerialize } from 'rxjs/operators';
 // array in local storage for registered users
 let users = JSON.parse(localStorage.getItem('users')) || [];
 let events = JSON.parse(localStorage.getItem('events')) || [];
+let attendance = JSON.parse(localStorage.getItem('attendance')) || {};
 
 
 @Injectable()
@@ -32,6 +33,10 @@ export class FakeBackendInterceptor implements HttpInterceptor {
                     return createEvent();
                 case url.endsWith('events') && method === 'GET':
                     return getEvents();
+                case url.endsWith('events/attend') && method == 'POST':
+                    return attend()
+                case url.endsWith('events/unattend') && method == 'POST':
+                    return unAttend()
                 default:
                     // pass through any requests not handled above
                     return next.handle(request);
@@ -74,10 +79,44 @@ export class FakeBackendInterceptor implements HttpInterceptor {
             event.createdBy = currentUserId;
             events.push(event);
             localStorage.setItem('events', JSON.stringify(events))
+            attendance[event.id] = [];
+            localStorage.setItem('attendance', JSON.stringify(attendance))
             return ok();
         }
 
         function getEvents() {
+            events.map(event => {
+                event.attendance = attendance[event.id];
+            })
+
+            return ok({
+                events
+            });
+        }
+
+        function attend() {
+            let { eventId, userId } = body;
+            attendance[eventId].push(userId);
+            localStorage.setItem('attendance', JSON.stringify(attendance))
+            events.map(event => {
+                event.attendance = attendance[event.id];
+            })
+
+            return ok({
+                events
+            });
+        }
+
+        function unAttend() {
+            let { eventId, userId } = body;
+            let id = attendance[eventId].indexOf(userId);
+            attendance[eventId].splice(id, 1);
+            console.log('attendecance after unnat', attendance[eventId])
+            localStorage.setItem('attendance', JSON.stringify(attendance))
+            events.map(event => {
+                event.attendance = attendance[event.id];
+            })
+
             return ok({
                 events
             });
