@@ -1,7 +1,8 @@
 <form [formGroup]="loginForm">
-  <input type="text" formControlName="name" placeholder="UserName">
+  <input type="text" formControlName="name" placeholder="Email address">
   <div *ngIf="submitted && f.name.errors">
-    <p *ngIf="f.name.errors.required">Name is required</p>
+    <p *ngIf="f.name.errors.required">Email is required</p>
+    <p *ngIf="f.name.errors.email">Please enter a valid Email</p>
   </div>
   <input type="password" formControlName="password" placeholder="password">
   <div *ngIf="submitted && f.password.errors">

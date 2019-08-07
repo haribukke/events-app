@@ -26,6 +26,8 @@ export class FakeBackendInterceptor implements HttpInterceptor {
                     return register();
                 case url.endsWith('events') && method === 'POST':
                     return createEvent();
+                case url.endsWith('events') && method === 'GET':
+                    return getEvents();
                 default:
                     // pass through any requests not handled above
                     return next.handle(request);
@@ -35,12 +37,12 @@ export class FakeBackendInterceptor implements HttpInterceptor {
         // route functions
 
         function authenticate() {
-            const { username, password } = body;
-            const user = users.find(x => x.username === username && x.password === password);
+            const { name, password } = body;
+            const user = users.find(x => x.name === name && x.password === password);
             if (!user) return error('Username or password is incorrect');
             return ok({
                 id: user.id,
-                username: user.username,
+                name: user.name,
                 firstName: user.firstName,
                 lastName: user.lastName,
                 token: 'fake-jwt-token'
@@ -49,9 +51,10 @@ export class FakeBackendInterceptor implements HttpInterceptor {
 
         function register() {
             const user = body
+            console.log('user', user)
 
-            if (users.find(x => x.username === user.username)) {
-                return error('Username "' + user.username + '" is already taken')
+            if (users.find(x => x.name === user.name)) {
+                return error('Username "' + user.name + '" is already taken')
             }
 
             user.id = users.length ? Math.max(...users.map(x => x.id)) + 1 : 1;
@@ -62,6 +65,10 @@ export class FakeBackendInterceptor implements HttpInterceptor {
         }
 
         function createEvent() {
+            return ok();
+        }
+
+        function getEvents() {
             return ok();
         }
         // helper functions
