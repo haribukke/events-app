@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { AppConstants } from 'src/app/constants/app.constants';
 import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -12,23 +13,23 @@ export class EventsService {
     private http: HttpClient
   ) { }
 
-  createEvent(eventObj) {
+  createEvent(eventObj): Observable<object> {
     let url = AppConstants.eventsUrl;
     return this.http.post(url, eventObj)
   }
 
-  getEvents() {
+  getEvents(): Observable<object> {
     let url = AppConstants.eventsUrl;
     return this.http.get(url);
   }
 
-  attendEvent(eventId, userId) {
+  attendEvent(eventId, userId): Observable<object> {
     let url = AppConstants.eventsAttendUrl;
     let obj = { eventId, userId }
     return this.http.post(url, obj)
   }
 
-  unAttendEvent(eventId, userId) {
+  unAttendEvent(eventId, userId): Observable<object> {
     let url = AppConstants.eventsUnAttendUrl;
     let obj = { eventId, userId }
     return this.http.post(url, obj)

@@ -1,2 +1,91 @@
 /* You can add global styles to this file, and also import other style files */
-@import "~bootstrap/dist/css/bootstrap.min.css";
+@import "~bootstrap/scss/_functions";
+@import "~bootstrap/scss/_variables";
+
+$theme-colors: (
+  "primary": $purple
+);
+
+$btn-border-radius: 20px;
+$btn-padding-x: 30px;
+
+@import "~bootstrap/scss/bootstrap.scss";
+
+.background {
+  &-purple {
+    //     background-color: $purple;
+    //     background: #6f42c1; /* Old browsers */
+    //     background: -moz-linear-gradient(top, #6f42c1 0%, #2989d8 50%, #207cca 51%, #77ddaa 100%); /* FF3.6-15 */
+    //     background: -webkit-linear-gradient(
+    //       top,
+    //       #6f42c1 0%,
+    //       #2989d8 50%,
+    //       #207cca 51%,
+    //       #77ddaa 100%
+    //     ); /* Chrome10-25,Safari5.1-6 */
+    //     background: linear-gradient(
+    //       to bottom,
+    //       #6f42c1 0%,
+    //       #2989d8 50%,
+    //       #207cca 51%,
+    //       #77ddaa 100%
+    //     ); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    //     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#6f42c1', endColorstr='#77ddaa',GradientType=0 ); /* IE6-9 */
+    //
+    /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#6f42c1+0,77ddaa+100,77ddaa+100 */
+    background: #6f42c1; /* Old browsers */
+    background: -moz-linear-gradient(-45deg, #6f42c1 0%, #77ddaa 100%, #77ddaa 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(-45deg, #6f42c1 0%, #77ddaa 100%, #77ddaa 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(
+      135deg,
+      #6f42c1 0%,
+      #77ddaa 100%,
+      #77ddaa 100%
+    ); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#6f42c1', endColorstr='#77ddaa',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+  }
+}
+.ht-100 {
+  height: 100vh;
+}
+.title {
+  font-weight: 800;
+  font-size: 3rem;
+}
+.text-small--grey {
+  font-size: 16px;
+  color: $gray-600;
+}
+.text--gray {
+  color: $gray-600 !important;
+}
+.input-label {
+  color: $gray-600;
+}
+.login,
+.register {
+  &__container {
+    padding: 120px 150px 50px;
+  }
+  .details-text {
+    color: $white;
+  }
+
+  .welcome-container {
+    @extend .background-purple;
+    padding: 200px 50px;
+    color: $white;
+    text-align: right;
+    &__msg {
+      &--text-large {
+        font-size: 64px;
+        font-weight: 600;
+        line-height: 100px;
+      }
+      &--text-medium {
+        font-weight: 400;
+        font-size: 18px;
+      }
+    }
+  }
+}

@@ -1,7 +1,7 @@
 export class AppConstants {
-    public static registerUrl = "/users/register";
-    public static loginUrl = "/users/authenticate";
-    public static eventsUrl = "/events";
-    public static eventsAttendUrl = "/events/attend";
-    public static eventsUnAttendUrl = "/events/unattend";
+    public static registerUrl: string = "/users/register";
+    public static loginUrl: string = "/users/authenticate";
+    public static eventsUrl: string = "/events";
+    public static eventsAttendUrl: string = "/events/attend";
+    public static eventsUnAttendUrl: string = "/events/unattend";
 }
