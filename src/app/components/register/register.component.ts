@@ -9,6 +9,7 @@ import { AuthenticationService } from 'src/app/services/authentication/authentic
 })
 export class RegisterComponent implements OnInit {
   submitted: boolean = false;
+  accountCreated: boolean = false;
   constructor(
     private fb: FormBuilder,
     private authService: AuthenticationService
@@ -35,7 +36,8 @@ export class RegisterComponent implements OnInit {
     console.log('userobj', userObj);
     this.authService.registerUser(userObj)
       .subscribe(data => {
-        console.log('data', data)
+        console.log('data', data);
+        this.accountCreated = true
       })
   }
 
