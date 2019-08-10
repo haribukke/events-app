@@ -10,6 +10,7 @@ import { AuthenticationService } from 'src/app/services/authentication/authentic
 })
 export class LoginComponent implements OnInit {
   submitted: boolean = false;
+  error: boolean = false;
   constructor(
     private fb: FormBuilder,
     private router: Router,
@@ -41,6 +42,7 @@ export class LoginComponent implements OnInit {
         this.router.navigateByUrl('/dashboard');
       }, err => {
         console.log(err, err.error.message)
+        this.error = true;
       })
 
   }

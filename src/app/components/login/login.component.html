@@ -27,7 +27,11 @@
             <p class="text--gray">Remember me</p>
           </div>
           <div class="col-6"><a class="float-right text--gray ">Forgot Password?</a></div>
+          <div class="col-12">
+            <p class="text-danger" *ngIf="error">Invalid credentials.</p>
+          </div>
         </div>
+
         <button type="submit" class="btn btn-primary float-right" (click)="login()">Login</button>
       </form>
     </div>
