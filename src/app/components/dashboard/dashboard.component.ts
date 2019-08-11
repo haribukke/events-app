@@ -9,9 +9,10 @@ import { AuthenticationService } from 'src/app/services/authentication/authentic
 })
 export class DashboardComponent implements OnInit {
 
-  events: any;
-  myEvents: any;
+  events: any = [];
+  myEvents: any = [];
   userId: string | number;
+  activeTab: string = 'allEvents';
 
   constructor(
     private eventsService: EventsService,
@@ -26,7 +27,6 @@ export class DashboardComponent implements OnInit {
 
         this.events = data.events;
         this.events.map(event => {
-          console.log('event aten', event.attendance.filter(x => x == this.userId))
           event.attendedByUser = event.attendance.filter(x => x == this.userId).length > 0
         })
         this.myEvents = data.events.filter(x => x.createdBy == this.userId)
@@ -48,18 +48,18 @@ export class DashboardComponent implements OnInit {
       })
   }
 
-  unAttendEvent(id, userId){
+  unAttendEvent(id, userId) {
     this.eventsService.unAttendEvent(id, userId)
-    .subscribe((data: any) => {
+      .subscribe((data: any) => {
 
-      this.events = data.events;
-      this.events.map(event => {
-        console.log('event aten', event.attendance.filter(x => x == this.userId))
-        event.attendedByUser = event.attendance.filter(x => x == this.userId).length > 0
+        this.events = data.events;
+        this.events.map(event => {
+          console.log('event aten', event.attendance.filter(x => x == this.userId))
+          event.attendedByUser = event.attendance.filter(x => x == this.userId).length > 0
+        })
+        this.myEvents = data.events.filter(x => x.createdBy == this.userId)
+        console.log('events', this.events)
       })
-      this.myEvents = data.events.filter(x => x.createdBy == this.userId)
-      console.log('events', this.events)
-    })
   }
 
 }

@@ -1,25 +1,57 @@
 <div class="container-fluid dashboard">
   <app-header></app-header>
   <div class="row">
-    <div class="col-md-7">
-      <p>Welcome</p>
-      <button class="btn btn-primary float-right" routerLink="/create-event">Create Event</button>
-      <h2>All events</h2>
-      <div *ngFor="let event of events">
-        <p>{{event.name}}</p>
-        <p>{{event.description}}</p>
-        <button *ngIf="event.createdBy!=userId && !event.attendedByUser" (click)="attendEvent(event.id,userId)">
-          Attend</button>
-        <button *ngIf="event.createdBy!=userId && event.attendedByUser" (click)="unAttendEvent(event.id,userId)">
-          UnAttend</button>
+    <div class="secondary-menu">
+      <ul>
+        <li class="nav-item" [class.active]="activeTab=='allEvents'" (click)="activeTab='allEvents'">All Events</li>
+        <li class="nav-item" [class.active]="activeTab=='myEvents'" (click)="activeTab='myEvents'">Created By Me</li>
+      </ul>
+    </div>
+  </div>
+  <div class="dashboard-body">
+    <div class="row">
+      <div class="col-md-12">
+        <button class="btn btn-primary float-right" routerLink="/create-event">Create Event</button>
       </div>
     </div>
-    <div class="col-md-5">
-      <h2>My events</h2>
-      <div *ngFor="let event of myEvents">
-        <p>{{event.name}}</p>
-        <p>{{event.description}}</p>
+    <div class="row">
+      <div class="col-md-7" *ngIf="activeTab=='allEvents'">
+        <h2 class="mb-4"> Upcoming Events</h2>
+        <div *ngFor="let event of events" class="card">
+          <div class="row">
+            <div class="col-9">
+              <p class="name">{{event.name}}</p>
+              <p class="description">{{event.description}}</p>
+            </div>
+            <div class="col-3">
+              <button class="btn btn-outline-primary" *ngIf="event.createdBy!=userId && !event.attendedByUser"
+                (click)="attendEvent(event.id,userId)">
+                Attend</button>
+              <button class="btn btn-outline-primary" *ngIf="event.createdBy!=userId && event.attendedByUser"
+                (click)="unAttendEvent(event.id,userId)">
+                UnAttend</button>
+            </div>
+          </div>
+        </div>
+        <div class="card" *ngIf="events.length==0">
+          <p>There are no upcoming events. You can <a class="text-primary" routerLink="/create-event">click here</a> to
+            create an event</p>
+        </div>
+      </div>
+      <div class="col-md-7" *ngIf="activeTab=='myEvents'">
+        <h2 class="mb-4">My events</h2>
+        <div *ngFor="let event of myEvents" class="card">
+          <p class="name">{{event.name}}</p>
+          <p class="description">{{event.description}}</p>
+        </div>
+        <div class="card" *ngIf="myEvents.length==0">
+          <p>You have not created any events till now. <a class="text-primary mb-4" routerLink="/create-event">Click
+              here
+            </a>to Create your first
+            event</p>
+        </div>
       </div>
     </div>
   </div>
+
 </div>
