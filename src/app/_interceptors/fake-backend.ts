@@ -7,6 +7,7 @@ import { delay, mergeMap, materialize, dematerialize } from 'rxjs/operators';
 let users = JSON.parse(localStorage.getItem('users')) || [];
 let events = JSON.parse(localStorage.getItem('events')) || [];
 let attendance = JSON.parse(localStorage.getItem('attendance')) || {};
+let notifications = JSON.parse(localStorage.getItem('notifications')) || [];
 
 
 @Injectable()
@@ -29,6 +30,9 @@ export class FakeBackendInterceptor implements HttpInterceptor {
                     return authenticate();
                 case url.endsWith('/users/register') && method === 'POST':
                     return register();
+                case url.startsWith('/users/notifications/') && method === 'GET':
+                    
+                    return getNotifications(url);
                 case url.endsWith('events') && method === 'POST':
                     return createEvent();
                 case url.endsWith('events') && method === 'GET':
@@ -98,6 +102,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
             let { eventId, userId } = body;
             attendance[eventId].push(userId);
             localStorage.setItem('attendance', JSON.stringify(attendance))
+            createNotification('NEW_ATTENDEE', eventId);
             events.map(event => {
                 event.attendance = attendance[event.id];
             })
@@ -107,12 +112,40 @@ export class FakeBackendInterceptor implements HttpInterceptor {
             });
         }
 
+        function createNotification(type, eventId) {
+            let notification = new Notification(type, eventId)
+            notifications.push(notification);
+            localStorage.setItem('notifications', JSON.stringify(notifications))
+        }
+
+        function Notification(type, eventId) {
+            this.id = notifications.length ? Math.max(...notifications.map(x => x.id)) + 1 : 1;
+            let event = events.filter(event => event.id == eventId)
+            console.log('event', event)
+            switch (type) {
+                case 'NEW_ATTENDEE':
+                    this.message = `New attendee for your event ${event[0].name}`;
+                    this.to = event[0].createdBy;
+                    break;
+                case 'ATTENDEE_REMOVED':
+                    this.message = 'A user has backed off from your event';
+                    this.to = event.createdBy;
+                    break;
+                case 'EVENT_MODIFIED':
+                    break;
+                case 'EVENT_DELETED':
+                    break;
+            }
+
+
+        }
+
         function unAttend() {
             let { eventId, userId } = body;
             let id = attendance[eventId].indexOf(userId);
             attendance[eventId].splice(id, 1);
-            console.log('attendecance after unnat', attendance[eventId])
             localStorage.setItem('attendance', JSON.stringify(attendance))
+            createNotification('ATTENDEE_REMOVED', eventId)
             events.map(event => {
                 event.attendance = attendance[event.id];
             })
@@ -120,6 +153,12 @@ export class FakeBackendInterceptor implements HttpInterceptor {
             return ok({
                 events
             });
+        }
+
+        function getNotifications(url) {
+            let id = url.split('/notifications/')[1];
+            let notificaions = notifications.filter(x => x.to == id)
+            return ok({ notificaions })
         }
         // helper functions
 

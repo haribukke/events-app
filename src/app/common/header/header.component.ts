@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { NotificationsService } from 'src/app/services/notifications/notifications.service';
 
 @Component({
   selector: 'app-header',
@@ -6,10 +7,17 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit {
+  count: number = 0;
 
-  constructor() { }
+  constructor(
+    private notificationService: NotificationsService
+  ) { }
 
   ngOnInit() {
+    this.notificationService.getNotifications()
+      .subscribe((data: any) => {
+        this.count = data.notificaions.length;
+      })
   }
 
 }

@@ -4,4 +4,5 @@ export class AppConstants {
     public static eventsUrl: string = "/events";
     public static eventsAttendUrl: string = "/events/attend";
     public static eventsUnAttendUrl: string = "/events/unattend";
+    public static notificationsUrl: string = "/users/notifications/";
 }

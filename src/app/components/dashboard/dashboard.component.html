@@ -41,8 +41,14 @@
       <div class="col-md-7" *ngIf="activeTab=='myEvents'">
         <h2 class="mb-4">My events</h2>
         <div *ngFor="let event of myEvents" class="card">
-          <p class="name">{{event.name}}</p>
-          <p class="description">{{event.description}}</p>
+          <div class="row">
+            <div class="col-9">
+              <p class="name">{{event.name}}</p>
+              <p class="description">{{event.description}}</p>
+            </div>
+            <div class="col-3" title="number of participants">{{event.attendance.length}}</div>
+          </div>
+
         </div>
         <div class="card" *ngIf="myEvents.length==0">
           <p>You have not created any events till now. <a class="text-primary mb-4" routerLink="/create-event">Click
