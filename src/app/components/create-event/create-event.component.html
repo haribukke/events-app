@@ -3,15 +3,22 @@
   <div class="row event-form">
     <div class="col-12">
       <h1 class="title">Create Event</h1>
+      <span class="help-text">(Fields marked as * are mandatory)</span>
 
       <form [formGroup]="eventForm">
         <div class="form-group mt-5" *ngIf="step1">
-          <label class="input-label" for="">Event Name</label>
+          <label class="input-label" for="">Event Name*</label>
           <input type="text" class="form-control" formControlName="name" placeholder="Name Of Event">
+          <div class="text-danger" *ngIf="f.name.errors&&showStep1Errors">
+            <p>Name is required</p>
+          </div>
         </div>
         <div class="form-group" *ngIf="step1">
-          <label for="" class="input-label">Description</label>
+          <label for="" class="input-label">Description*</label>
           <textarea class="form-control" formControlName="description" placeholder="Description"></textarea>
+          <div class="text-danger" *ngIf="f.description.errors&&showStep1Errors">
+            <p>Description is required</p>
+          </div>
         </div>
         <div class="row mt-5" *ngIf="step2">
           <div class="col-6">
@@ -22,14 +29,20 @@
           </div>
           <div class="col-6">
             <div class="form-group">
-              <label for="" class="input-label">Date</label>
+              <label for="" class="input-label">Date*</label>
               <input type="date" class="form-control" formControlName="date">
+              <div class="text-danger" *ngIf="f.date.errors&&showStep2Errors">
+                <p>Date is required</p>
+              </div>
             </div>
           </div>
         </div>
         <div class="form-group" *ngIf="step2">
-          <label for="" class="input-label">Address</label>
+          <label for="" class="input-label">Address*</label>
           <textarea class="form-control" formControlName="location" placeholder="Address"></textarea>
+          <div class="text-danger" *ngIf="f.location.errors&&showStep2Errors">
+            <p>Address is required</p>
+          </div>
         </div>
         <div class="row mt-5" *ngIf="step3">
           <div class="col-6">

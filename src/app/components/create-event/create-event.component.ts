@@ -14,6 +14,9 @@ export class CreateEventComponent implements OnInit {
   step1: boolean = true;
   step2: boolean = false;
   step3: boolean = false;
+  showStep1Errors: boolean = false;
+  showStep2Errors: boolean = false;
+  showStep3Errors: boolean = false;
 
   constructor(
     private fb: FormBuilder,
@@ -35,7 +38,24 @@ export class CreateEventComponent implements OnInit {
     maxParticipants: [''],
   })
 
+  get f() {
+    return this.eventForm.controls;
+  }
+
   next(newStep, currentStep) {
+
+    if (currentStep == 'step1' &&
+      (this.eventForm.controls.name.status == 'INVALID' ||
+        this.eventForm.controls.description.status == 'INVALID')) {
+      this.showStep1Errors = true;
+      return
+    }
+    if (currentStep == 'step2' &&
+      (this.eventForm.controls.date.status == 'INVALID' ||
+        this.eventForm.controls.location.status == 'INVALID')) {
+      this.showStep2Errors = true;
+      return
+    }
     this[newStep] = true;
     this[currentStep] = false;
   }
