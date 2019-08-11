@@ -12,6 +12,7 @@ import { CreateEventComponent } from './components/create-event/create-event.com
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { fakeBackendProvider } from './_interceptors/fake-backend';
 import { AuthInterceptor } from './_interceptors/auth-interceptor';
+import { HeaderComponent } from './common/header/header.component';
 
 const providers = [
   fakeBackendProvider,
@@ -24,7 +25,8 @@ const providers = [
     LoginComponent,
     RegisterComponent,
     DashboardComponent,
-    CreateEventComponent
+    CreateEventComponent,
+    HeaderComponent
   ],
   imports: [
     BrowserModule,

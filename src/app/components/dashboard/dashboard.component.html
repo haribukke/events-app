@@ -1,18 +1,25 @@
-<p>Welcome</p>
-<div>
-  <button routerLink="/create-event">Create Event</button>
-  <h2>All events</h2>
-  <div *ngFor="let event of events">
-    <p>{{event.name}}</p>
-    <p>{{event.description}}</p>
-    <button *ngIf="event.createdBy!=userId && !event.attendedByUser" (click)="attendEvent(event.id,userId)">
-      Attend</button>
-      <button *ngIf="event.createdBy!=userId && event.attendedByUser" (click)="unAttendEvent(event.id,userId)">
-        UnAttend</button>
-  </div>
-  <h2>My events</h2>
-  <div *ngFor="let event of myEvents">
-    <p>{{event.name}}</p>
-    <p>{{event.description}}</p>
+<div class="container-fluid dashboard">
+  <app-header></app-header>
+  <div class="row">
+    <div class="col-md-7">
+      <p>Welcome</p>
+      <button class="btn btn-primary float-right" routerLink="/create-event">Create Event</button>
+      <h2>All events</h2>
+      <div *ngFor="let event of events">
+        <p>{{event.name}}</p>
+        <p>{{event.description}}</p>
+        <button *ngIf="event.createdBy!=userId && !event.attendedByUser" (click)="attendEvent(event.id,userId)">
+          Attend</button>
+        <button *ngIf="event.createdBy!=userId && event.attendedByUser" (click)="unAttendEvent(event.id,userId)">
+          UnAttend</button>
+      </div>
+    </div>
+    <div class="col-md-5">
+      <h2>My events</h2>
+      <div *ngFor="let event of myEvents">
+        <p>{{event.name}}</p>
+        <p>{{event.description}}</p>
+      </div>
+    </div>
   </div>
 </div>
