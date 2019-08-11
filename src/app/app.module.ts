@@ -13,6 +13,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { fakeBackendProvider } from './_interceptors/fake-backend';
 import { AuthInterceptor } from './_interceptors/auth-interceptor';
 import { HeaderComponent } from './common/header/header.component';
+import { NotificationsComponent } from './components/notifications/notifications.component';
 
 const providers = [
   fakeBackendProvider,
@@ -26,7 +27,8 @@ const providers = [
     RegisterComponent,
     DashboardComponent,
     CreateEventComponent,
-    HeaderComponent
+    HeaderComponent,
+    NotificationsComponent
   ],
   imports: [
     BrowserModule,

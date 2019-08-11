@@ -19,4 +19,9 @@ export class NotificationsService {
     let url = AppConstants.notificationsUrl+ this.authService.getUserId();
     return this.http.get(url);
   }
+
+  clearNotifications():Observable<object> {
+    let url = AppConstants.notificationsUrl+ this.authService.getUserId();
+    return this.http.delete(url);
+  }
 }

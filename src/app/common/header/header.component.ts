@@ -15,8 +15,9 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit() {
     this.notificationService.getNotifications()
-      .subscribe((data: any) => {
-        this.count = data.notificaions.length;
+      .subscribe((data: any = []) => {
+        console.log('data', data)
+        this.count = data.notification.length;
       })
   }
 

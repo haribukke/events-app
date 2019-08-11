@@ -1,0 +1,19 @@
+<div class="container-fluid notifications">
+  <div class="row full-width-row">
+    <div class="col-12">
+      <app-header></app-header>
+    </div>
+    <div class="row notifications-body">
+      <div class="col-md-7">
+        <h1 class="title">Notifications<span class="help-text pl-5" *ngIf="notifications && notifications.length>0"
+            (click)="clearAll()">Clear all</span></h1>
+        <div class="card pb-4" *ngFor=" let notification of notifications">
+          {{notification.message}}
+        </div>
+        <div class="card pb-4" *ngIf="notifications && notifications.length==0">
+          You are all caught up!
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

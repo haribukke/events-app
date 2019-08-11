@@ -31,8 +31,9 @@ export class FakeBackendInterceptor implements HttpInterceptor {
                 case url.endsWith('/users/register') && method === 'POST':
                     return register();
                 case url.startsWith('/users/notifications/') && method === 'GET':
-                    
                     return getNotifications(url);
+                case url.startsWith('/users/notifications/') && method === 'DELETE':
+                    return deleteNotifications(url);
                 case url.endsWith('events') && method === 'POST':
                     return createEvent();
                 case url.endsWith('events') && method === 'GET':
@@ -115,6 +116,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
         function createNotification(type, eventId) {
             let notification = new Notification(type, eventId)
             notifications.push(notification);
+            console.log('notifications', notifications)
             localStorage.setItem('notifications', JSON.stringify(notifications))
         }
 
@@ -157,8 +159,15 @@ export class FakeBackendInterceptor implements HttpInterceptor {
 
         function getNotifications(url) {
             let id = url.split('/notifications/')[1];
-            let notificaions = notifications.filter(x => x.to == id)
-            return ok({ notificaions })
+            let notification = notifications.filter(x => x.to == id)
+            return ok({ notification })
+        }
+
+        function deleteNotifications(url) {
+            let id = url.split('/notifications/')[1];
+            let notification = notifications.filter(x => x.to == !id)
+            localStorage.setItem('notifications', JSON.stringify(notification))
+            return ok()
         }
         // helper functions
 
