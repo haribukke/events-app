@@ -6,11 +6,14 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-create-event',
   templateUrl: './create-event.component.html',
-  styleUrls: ['./create-event.component.sass']
+  styleUrls: ['./create-event.component.scss']
 })
 export class CreateEventComponent implements OnInit {
 
   submitted: boolean = false;
+  step1: boolean = true;
+  step2: boolean = false;
+  step3: boolean = false;
 
   constructor(
     private fb: FormBuilder,
@@ -32,6 +35,22 @@ export class CreateEventComponent implements OnInit {
     maxParticipants: [''],
   })
 
+  next(newStep, currentStep) {
+    this[newStep] = true;
+    this[currentStep] = false;
+  }
+
+  prevStep() {
+    if (this.step2) {
+      this.step1 = true;
+      this.step2 = false;
+    }
+    if (this.step3) {
+      this.step2 = true;
+      this.step3 = false;
+    }
+  }
+
   createEvent() {
     this.submitted = true;
     if (this.eventForm.invalid) {
@@ -39,7 +58,7 @@ export class CreateEventComponent implements OnInit {
     }
     console.log('form val', this.eventForm.value)
     this.eventsService.createEvent(this.eventForm.value)
-      .subscribe(data=>{
+      .subscribe(data => {
         console.log(data);
         this.router.navigateByUrl('/dashboard')
       })

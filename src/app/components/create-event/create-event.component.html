@@ -1,12 +1,63 @@
-<h1>Create Event</h1>
-<form [formGroup]="eventForm">
-  <input type="text" formControlName="name" placeholder="Name Of Event">
-  <textarea formControlName="description" placeholder="Description"></textarea>
-  <input type="text" formControlName="duration" placeholder="Duration of Event">
-  <input type="date" formControlName="date" >
-  <textarea  formControlName="location" placeholder="Address"></textarea>
-  <input type="text" formControlName="fees" placeholder="Fees">
-  <input type="text" formControlName="tags" placeholder="Tags">
-  <input type="number" formControlName="maxParticipants" placeholder="Maximum number of Participants">
-  <button type="submit" (click)="createEvent()">Create Event</button>
-</form>
+<div class="container-fluid create-event">
+  <app-header></app-header>
+  <div class="row event-form">
+    <div class="col-12">
+      <h1 class="title">Create Event</h1>
+
+      <form [formGroup]="eventForm">
+        <div class="form-group mt-5" *ngIf="step1">
+          <label class="input-label" for="">Event Name</label>
+          <input type="text" class="form-control" formControlName="name" placeholder="Name Of Event">
+        </div>
+        <div class="form-group" *ngIf="step1">
+          <label for="" class="input-label">Description</label>
+          <textarea class="form-control" formControlName="description" placeholder="Description"></textarea>
+        </div>
+        <div class="row" *ngIf="step2">
+          <div class="col-6">
+            <div class="form-group">
+              <label for="" class="input-label">Duration</label>
+              <input type="text" class="form-control" formControlName="duration" placeholder="Duration of Event">
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="form-group">
+              <label for="" class="input-label">Date</label>
+              <input type="date" class="form-control" formControlName="date">
+            </div>
+          </div>
+        </div>
+        <div class="form-group" *ngIf="step2">
+          <label for="" class="input-label">Address</label>
+          <textarea class="form-control" formControlName="location" placeholder="Address"></textarea>
+        </div>
+        <div class="row" *ngIf="step3">
+          <div class="col-6">
+            <div class="form-group">
+              <label for="" class="input-label">Fees</label>
+              <input type="text" class="form-control" formControlName="fees" placeholder="Fees">
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="form-group ">
+              <label for="" class="input-label">Maximum Number of Participants</label>
+              <input type="number" class="form-control" formControlName="maxParticipants"
+                placeholder="Maximum number of Participants">
+            </div>
+          </div>
+        </div>
+        <div class="form-group mb-5" *ngIf="step3">
+          <label for="" class="input-label">Tags</label>
+          <input type="text" class="form-control" formControlName="tags" placeholder="Tags">
+        </div>
+        <button type="button" class="btn" (click)="prevStep()">Back</button>
+        <button type="button" *ngIf="step1" class="btn btn-primary float-right"
+          (click)="next('step2','step1')">Next</button>
+        <button type="button" *ngIf="step2" class="btn btn-primary float-right"
+          (click)="next('step3','step2')">Next</button>
+        <button type="submit" *ngIf="step3" class="btn btn-primary float-right" (click)="createEvent()">Create
+          Event</button>
+      </form>
+    </div>
+  </div>
+</div>
