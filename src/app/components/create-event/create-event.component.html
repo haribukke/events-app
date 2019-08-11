@@ -13,7 +13,7 @@
           <label for="" class="input-label">Description</label>
           <textarea class="form-control" formControlName="description" placeholder="Description"></textarea>
         </div>
-        <div class="row" *ngIf="step2">
+        <div class="row mt-5" *ngIf="step2">
           <div class="col-6">
             <div class="form-group">
               <label for="" class="input-label">Duration</label>
@@ -31,7 +31,7 @@
           <label for="" class="input-label">Address</label>
           <textarea class="form-control" formControlName="location" placeholder="Address"></textarea>
         </div>
-        <div class="row" *ngIf="step3">
+        <div class="row mt-5" *ngIf="step3">
           <div class="col-6">
             <div class="form-group">
               <label for="" class="input-label">Fees</label>
@@ -46,11 +46,11 @@
             </div>
           </div>
         </div>
-        <div class="form-group mb-5" *ngIf="step3">
+        <div class="form-group" *ngIf="step3">
           <label for="" class="input-label">Tags</label>
           <input type="text" class="form-control" formControlName="tags" placeholder="Tags">
         </div>
-        <button type="button" class="btn" (click)="prevStep()">Back</button>
+        <button type="button" class="btn" *ngIf="!step1" (click)="prevStep()">Back</button>
         <button type="button" *ngIf="step1" class="btn btn-primary float-right"
           (click)="next('step2','step1')">Next</button>
         <button type="button" *ngIf="step2" class="btn btn-primary float-right"
