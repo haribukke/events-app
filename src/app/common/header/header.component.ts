@@ -14,10 +14,11 @@ export class HeaderComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.notificationService.getNotifications()
+    this.notificationService.init();
+    this.notificationService.notifications
       .subscribe((data: any = []) => {
         console.log('data', data)
-        this.count = data.notification.length;
+        this.count = (data.notification && data.notification.length) || 0;
       })
   }
 

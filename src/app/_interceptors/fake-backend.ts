@@ -7,7 +7,6 @@ import { delay, mergeMap, materialize, dematerialize } from 'rxjs/operators';
 let users = JSON.parse(localStorage.getItem('users')) || [];
 let events = JSON.parse(localStorage.getItem('events')) || [];
 let attendance = JSON.parse(localStorage.getItem('attendance')) || {};
-let notifications = JSON.parse(localStorage.getItem('notifications')) || [];
 
 
 @Injectable()
@@ -16,6 +15,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
         const { url, method, headers, body } = request;
         console.log('headers', headers)
         let currentUserId = localStorage.getItem('userId');
+        let notifications = JSON.parse(localStorage.getItem('notifications')) || [];
 
         // wrap in delayed observable to simulate server api call
         return of(null)
@@ -131,7 +131,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
                     break;
                 case 'ATTENDEE_REMOVED':
                     this.message = 'A user has backed off from your event';
-                    this.to = event.createdBy;
+                    this.to = event[0].createdBy;
                     break;
                 case 'EVENT_MODIFIED':
                     break;

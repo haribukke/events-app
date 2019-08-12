@@ -14,7 +14,7 @@ export class NotificationsComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.notificationService.getNotifications()
+    this.notificationService.notifications
       .subscribe((data: any) => {
         this.notifications = data && data.notification || [];
         console.log('data', data)
@@ -26,6 +26,7 @@ export class NotificationsComponent implements OnInit {
   clearAll() {
     this.notificationService.clearNotifications()
       .subscribe((data: any = []) => {
+        this.notificationService.updateNotifications([]);
         this.notifications = data && data.notification || [];
         console.log('data', data)
       }, err => {
