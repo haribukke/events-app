@@ -33,6 +33,11 @@ export class EventsService {
     return this.http.patch(url, eventObj)
   }
 
+  deleteEvent(id): Observable<object> {
+    let url = AppConstants.eventsUrl + `/${id}`;
+    return this.http.delete(url)
+  }
+
   attendEvent(eventId, userId): Observable<object> {
     let url = AppConstants.eventsAttendUrl;
     let obj = { eventId, userId }

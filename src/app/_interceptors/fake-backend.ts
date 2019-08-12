@@ -41,6 +41,8 @@ export class FakeBackendInterceptor implements HttpInterceptor {
                     return getEvents();
                 case url.endsWith('events') && method === 'PATCH':
                     return updateEvent();
+                case url.startsWith('/events') && method === 'DELETE':
+                    return deleteEvent(url);
                 case url.endsWith('events') && method === 'GET':
                     return getEvents();
                 case url.endsWith('events/attend') && method == 'POST':
@@ -115,6 +117,15 @@ export class FakeBackendInterceptor implements HttpInterceptor {
                 return ev;
             })
             localStorage.setItem('events', JSON.stringify(eventsArr))
+            createNotification('EVENT_MODIFIED', event.id)
+            return ok();
+        }
+
+        function deleteEvent(url) {
+            let id = url.split('/events/')[1];
+            let eventsArr = events.filter(ev => ev.id != id)
+            localStorage.setItem('events', JSON.stringify(eventsArr))
+            createNotification('EVENT_DELETED', id)
             return ok();
         }
 
@@ -133,13 +144,21 @@ export class FakeBackendInterceptor implements HttpInterceptor {
         }
 
         function createNotification(type, eventId) {
-            let notification = new Notification(type, eventId)
-            notifications.push(notification);
+            if (type == 'EVENT_MODIFIED' || 'EVENT_DELETED') {
+                attendance[eventId].forEach(n => {
+                    let notification = new Notification(type, eventId, n)
+                    notifications.push(notification);
+                })
+            } else {
+                let notification = new Notification(type, eventId)
+                notifications.push(notification);
+            }
+
             console.log('notifications', notifications)
             localStorage.setItem('notifications', JSON.stringify(notifications))
         }
 
-        function Notification(type, eventId) {
+        function Notification(type, eventId, to?) {
             this.id = notifications.length ? Math.max(...notifications.map(x => x.id)) + 1 : 1;
             let event = events.filter(event => event.id == eventId)
             console.log('event', event)
@@ -153,12 +172,14 @@ export class FakeBackendInterceptor implements HttpInterceptor {
                     this.to = event[0].createdBy;
                     break;
                 case 'EVENT_MODIFIED':
+                    this.message = `${event[0].name} has been modified`;
+                    this.to = to;
                     break;
                 case 'EVENT_DELETED':
+                    this.message = `${event[0].name} has been deleted`;
+                    this.to = to;
                     break;
             }
-
-
         }
 
         function unAttend() {
@@ -184,7 +205,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
 
         function deleteNotifications(url) {
             let id = url.split('/notifications/')[1];
-            let notification = notifications.filter(x => x.to == !id)
+            let notification = notifications.filter(x => x.to != id)
             localStorage.setItem('notifications', JSON.stringify(notification))
             return ok()
         }

@@ -165,4 +165,14 @@ export class CreateEventComponent implements OnInit {
         this.router.navigateByUrl('/dashboard')
       })
   }
+  /**
+   * delete event
+   */
+
+   deleteEvent(){
+     this.eventsService.deleteEvent(this.id)
+      .subscribe(data=>{
+        this.router.navigateByUrl('/dashboard')
+     })
+   }
 }
