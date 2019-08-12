@@ -3,7 +3,8 @@
   <div class="row event-form">
     <div class="col-12">
       <h1 class="title">{{id?"Edit" :"Create"}} Event
-        <button type="button" *ngIf="id" class="btn btn-danger float-right" (click)="deleteEvent()">Delete Event</button> </h1>
+        <button type="button" *ngIf="id" class="btn btn-danger float-right" (click)="deleteEvent()">Delete
+          Event</button> </h1>
       <span class="help-text">(Fields marked as * are mandatory)</span>
 
       <form [formGroup]="eventForm">
@@ -22,13 +23,13 @@
           </div>
         </div>
         <div class="row mt-5" *ngIf="step2">
-          <div class="col-6">
+          <div class="col-md-6">
             <div class="form-group">
               <label for="" class="input-label">Duration</label>
               <input type="text" class="form-control" formControlName="duration" placeholder="Duration of Event">
             </div>
           </div>
-          <div class="col-6">
+          <div class="col-md-6">
             <div class="form-group">
               <label for="" class="input-label">Date*</label>
               <input type="date" class="form-control" formControlName="date">
@@ -46,13 +47,13 @@
           </div>
         </div>
         <div class="row mt-5" *ngIf="step3">
-          <div class="col-6">
+          <div class="col-md-6">
             <div class="form-group">
               <label for="" class="input-label">Fees</label>
               <input type="text" class="form-control" formControlName="fees" placeholder="Fees">
             </div>
           </div>
-          <div class="col-6">
+          <div class="col-md-6">
             <div class="form-group ">
               <label for="" class="input-label">Maximum Number of Participants</label>
               <input type="number" class="form-control" formControlName="maxParticipants"

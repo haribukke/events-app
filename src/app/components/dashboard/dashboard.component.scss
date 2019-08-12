@@ -1,5 +1,4 @@
 .dashboard {
-
   .secondary-menu {
     height: 65px;
     border-bottom: 1px solid #ebeef7;
@@ -36,10 +35,9 @@
     font-weight: 500;
     color: #000000;
   }
-  .card {
-    padding: 20px 20px 0px;
-    box-shadow: 0 4px 8px 0 rgba(69, 70, 71, 0.05);
-    border: solid 1px #ebedf2;
-    margin-bottom: 20px;
+  @media (min-width: 576px) {
+    .create-btn {
+      float: right;
+    }
   }
 }

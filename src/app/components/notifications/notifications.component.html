@@ -5,8 +5,11 @@
     </div>
     <div class="row notifications-body">
       <div class="col-md-7">
-        <h1 class="title">Notifications<span class="help-text pl-5" *ngIf="notifications && notifications.length>0"
-            (click)="clearAll()">Clear all</span></h1>
+        <h1 class="title">Notifications
+          <span class="help-text pl-5 d-none d-md-inline-block" *ngIf="notifications && notifications.length>0"
+            (click)="clearAll()">Clear all</span>
+            <span class="help-text pl-5 d-inline-block d-md-none" *ngIf="notifications && notifications.length>0"
+                (click)="clearAll()">Clear</span></h1>
         <div class="card pb-4" *ngFor=" let notification of notifications">
           {{notification.message}}
         </div>

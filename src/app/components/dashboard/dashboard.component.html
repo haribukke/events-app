@@ -10,27 +10,33 @@
   </div>
   <div class="dashboard-body">
     <div class="row">
-      <div class="col-md-12">
+      <div class="d-none d-md-inline-block col-lg-12">
         <button class="btn btn-primary float-right" routerLink="/create-event">Create Event</button>
       </div>
     </div>
     <div class="row">
-      <div class="col-md-7" *ngIf="activeTab=='allEvents'">
-        <h2 class="mb-4"> Upcoming Events</h2>
+      <div class="col-lg-7" *ngIf="activeTab=='allEvents'">
+        <div>
+          <h2 class="mb-4 d-inline-block"> Upcoming Events</h2>
+          <button class="btn btn-primary create-btn  mb-4 d-md-none d-xs-block" routerLink="/create-event">Create
+            Event</button>
+        </div>
+
         <div *ngFor="let event of events" class="card">
           <div class="row">
-            <div class="col-9">
+            <div class="col-md-8">
               <p class="name">{{event.name}}</p>
               <p class="description">{{event.description}}</p>
             </div>
-            <div class="col-3">
+            <div class="col-md-4">
               <button class="btn btn-outline-primary" *ngIf="event.createdBy!=userId && !event.attendedByUser"
                 (click)="attendEvent(event.id,userId)">
                 Attend</button>
               <button class="btn btn-outline-primary" *ngIf="event.createdBy!=userId && event.attendedByUser"
                 (click)="unAttendEvent(event.id,userId)">
                 UnAttend</button>
-              <button class="btn btn-outline-primary" *ngIf="event.createdBy==userId" routerLink="/edit-event/{{event.id}}">
+              <button class="btn btn-outline-primary" *ngIf="event.createdBy==userId"
+                routerLink="/edit-event/{{event.id}}">
                 Edit</button>
             </div>
           </div>
@@ -44,11 +50,11 @@
         <h2 class="mb-4">My events</h2>
         <div *ngFor="let event of myEvents" class="card">
           <div class="row">
-            <div class="col-9">
+            <div class="col-md-9">
               <p class="name">{{event.name}}</p>
               <p class="description">{{event.description}}</p>
             </div>
-            <div class="col-3" title="number of participants">{{event.attendance.length}}</div>
+            <div class="col-md-3" title="number of participants">{{event.attendance.length}}</div>
           </div>
 
         </div>

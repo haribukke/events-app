@@ -1,7 +1,15 @@
 .create-event {
   .event-form {
-    width: 60%;
+    width: 90%;
     margin: 0 auto;
-    margin-top: 120px;
+    margin-top: 40px;
+  }
+
+  @media screen and (min-width: 992px) {
+    .event-form {
+      width: 60%;
+      margin: 0 auto;
+      margin-top: 120px;
+    }
   }
 }
