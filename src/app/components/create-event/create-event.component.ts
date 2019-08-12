@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { EventsService } from 'src/app/services/events/events.service';
 import { Router, ActivatedRoute } from '@angular/router';
+import { AuthenticationService } from 'src/app/services/authentication/authentication.service';
 
 @Component({
   selector: 'app-create-event',
@@ -22,6 +23,7 @@ export class CreateEventComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private eventsService: EventsService,
+    private authService: AuthenticationService,
     private router: Router,
     private route: ActivatedRoute
   ) { }
@@ -33,11 +35,24 @@ export class CreateEventComponent implements OnInit {
         this.eventsService.getEventData(this.id)
           .subscribe((data: any) => {
             console.log('data', data)
-            this.populateForm(data.event[0]);
+            /**
+             * if the event is created by the logged in user, he can edit
+             * Else he would be navigated to dashboard
+             */
+            if (data.event[0].createdBy == this.authService.getUserId()) {
+              this.populateForm(data.event[0]);
+            }
+            else {
+              this.router.navigateByUrl('/dashboard');
+            }
           })
       })
     }
   }
+
+  /**
+   * creating event form
+   */
 
   eventForm: FormGroup = this.fb.group({
     id: [''],
@@ -51,6 +66,10 @@ export class CreateEventComponent implements OnInit {
     maxParticipants: [''],
     createdBy: ['']
   })
+
+  /**
+   * populating event form in edit mode
+   */
 
   populateForm(data) {
     this.eventForm.patchValue({
@@ -67,9 +86,17 @@ export class CreateEventComponent implements OnInit {
     })
   }
 
+  /**
+   * getter function to access formcontrols in template for validations
+   */
+
   get f() {
     return this.eventForm.controls;
   }
+
+  /**
+   * next function to move through stages of event creation
+   */
 
   next(newStep, currentStep) {
 
@@ -89,6 +116,10 @@ export class CreateEventComponent implements OnInit {
     this[currentStep] = false;
   }
 
+  /**
+   * to go back to previous step during form creation
+   */
+
   prevStep() {
     if (this.step2) {
       this.step1 = true;
@@ -99,6 +130,12 @@ export class CreateEventComponent implements OnInit {
       this.step3 = false;
     }
   }
+
+  /**
+   * create event called after all details are filled. 
+   * If form is invalid, would show error
+   * if event creation is successful, would navigate back to dashboard
+   */
 
   createEvent() {
     this.submitted = true;
@@ -112,6 +149,10 @@ export class CreateEventComponent implements OnInit {
         this.router.navigateByUrl('/dashboard')
       })
   }
+
+  /**
+   * Same as create event
+   */
 
   updateEvent() {
     this.submitted = true;
