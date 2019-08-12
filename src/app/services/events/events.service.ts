@@ -23,6 +23,16 @@ export class EventsService {
     return this.http.get(url);
   }
 
+  getEventData(id): Observable<object> {
+    let url = AppConstants.eventByIdUrl + `/${id}`;
+    return this.http.get(url);
+  }
+
+  updateEvent(eventObj): Observable<object> {
+    let url = AppConstants.eventsUrl;
+    return this.http.patch(url, eventObj)
+  }
+
   attendEvent(eventId, userId): Observable<object> {
     let url = AppConstants.eventsAttendUrl;
     let obj = { eventId, userId }

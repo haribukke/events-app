@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { EventsService } from 'src/app/services/events/events.service';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-create-event',
@@ -17,17 +17,30 @@ export class CreateEventComponent implements OnInit {
   showStep1Errors: boolean = false;
   showStep2Errors: boolean = false;
   showStep3Errors: boolean = false;
+  id: number;
 
   constructor(
     private fb: FormBuilder,
     private eventsService: EventsService,
-    private router: Router
+    private router: Router,
+    private route: ActivatedRoute
   ) { }
 
   ngOnInit() {
+    if (this.router.url.includes('edit-event')) {
+      this.route.paramMap.subscribe(param => {
+        this.id = +param.get('id')
+        this.eventsService.getEventData(this.id)
+          .subscribe((data: any) => {
+            console.log('data', data)
+            this.populateForm(data.event[0]);
+          })
+      })
+    }
   }
 
   eventForm: FormGroup = this.fb.group({
+    id: [''],
     name: ['', Validators.required],
     description: ['', Validators.required],
     duration: [''],
@@ -36,7 +49,23 @@ export class CreateEventComponent implements OnInit {
     fees: [''],
     tags: [''],
     maxParticipants: [''],
+    createdBy: ['']
   })
+
+  populateForm(data) {
+    this.eventForm.patchValue({
+      id: data.id,
+      name: data.name,
+      description: data.description,
+      duration: data.duration,
+      date: data.date,
+      location: data.location,
+      fees: data.fees,
+      tags: data.tags,
+      maxParticipants: data.maxParticipants,
+      createdBy: data.createdBy
+    })
+  }
 
   get f() {
     return this.eventForm.controls;
@@ -78,6 +107,18 @@ export class CreateEventComponent implements OnInit {
     }
     console.log('form val', this.eventForm.value)
     this.eventsService.createEvent(this.eventForm.value)
+      .subscribe(data => {
+        console.log(data);
+        this.router.navigateByUrl('/dashboard')
+      })
+  }
+
+  updateEvent() {
+    this.submitted = true;
+    if (this.eventForm.invalid) {
+      return
+    }
+    this.eventsService.updateEvent(this.eventForm.value)
       .subscribe(data => {
         console.log(data);
         this.router.navigateByUrl('/dashboard')

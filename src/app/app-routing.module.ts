@@ -11,6 +11,7 @@ const routes: Routes = [
   { path: 'register', component: RegisterComponent },
   { path: 'dashboard', component: DashboardComponent },
   { path: 'create-event', component: CreateEventComponent },
+  { path: 'edit-event/:id', component: CreateEventComponent },
   { path: 'notifications', component: NotificationsComponent },
   { path: '**', redirectTo: '/login' }
 ];

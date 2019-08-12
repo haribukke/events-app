@@ -30,6 +30,8 @@
               <button class="btn btn-outline-primary" *ngIf="event.createdBy!=userId && event.attendedByUser"
                 (click)="unAttendEvent(event.id,userId)">
                 UnAttend</button>
+              <button class="btn btn-outline-primary" *ngIf="event.createdBy==userId" routerLink="/edit-event/{{event.id}}">
+                Edit</button>
             </div>
           </div>
         </div>

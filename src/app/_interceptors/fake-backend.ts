@@ -3,10 +3,7 @@ import { HttpRequest, HttpResponse, HttpHandler, HttpEvent, HttpInterceptor, HTT
 import { Observable, of, throwError } from 'rxjs';
 import { delay, mergeMap, materialize, dematerialize } from 'rxjs/operators';
 
-// array in local storage for registered users
-let users = JSON.parse(localStorage.getItem('users')) || [];
-let events = JSON.parse(localStorage.getItem('events')) || [];
-let attendance = JSON.parse(localStorage.getItem('attendance')) || {};
+
 
 
 @Injectable()
@@ -14,6 +11,10 @@ export class FakeBackendInterceptor implements HttpInterceptor {
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         const { url, method, headers, body } = request;
         console.log('headers', headers)
+        // array in local storage for registered users
+        let users = JSON.parse(localStorage.getItem('users')) || [];
+        let events = JSON.parse(localStorage.getItem('events')) || [];
+        let attendance = JSON.parse(localStorage.getItem('attendance')) || {};
         let currentUserId = localStorage.getItem('userId');
         let notifications = JSON.parse(localStorage.getItem('notifications')) || [];
 
@@ -38,10 +39,16 @@ export class FakeBackendInterceptor implements HttpInterceptor {
                     return createEvent();
                 case url.endsWith('events') && method === 'GET':
                     return getEvents();
+                case url.endsWith('events') && method === 'PATCH':
+                    return updateEvent();
+                case url.endsWith('events') && method === 'GET':
+                    return getEvents();
                 case url.endsWith('events/attend') && method == 'POST':
                     return attend()
                 case url.endsWith('events/unattend') && method == 'POST':
                     return unAttend()
+                case url.startsWith('/event/') && method === 'GET':
+                    return getEventById(url);
                 default:
                     // pass through any requests not handled above
                     return next.handle(request);
@@ -97,6 +104,18 @@ export class FakeBackendInterceptor implements HttpInterceptor {
             return ok({
                 events
             });
+        }
+
+        function updateEvent() {
+            const event = body;
+            let eventsArr = events.map(ev => {
+                if (ev.id == event.id) {
+                    ev = event;
+                }
+                return ev;
+            })
+            localStorage.setItem('events', JSON.stringify(eventsArr))
+            return ok();
         }
 
         function attend() {
@@ -168,6 +187,12 @@ export class FakeBackendInterceptor implements HttpInterceptor {
             let notification = notifications.filter(x => x.to == !id)
             localStorage.setItem('notifications', JSON.stringify(notification))
             return ok()
+        }
+
+        function getEventById(url) {
+            let id = url.split('/event/')[1];
+            let event = events.filter(x => x.id == id)
+            return ok({ event })
         }
         // helper functions
 

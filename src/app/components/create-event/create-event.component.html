@@ -2,7 +2,7 @@
   <app-header></app-header>
   <div class="row event-form">
     <div class="col-12">
-      <h1 class="title">Create Event</h1>
+      <h1 class="title">{{id?"Edit" :"Create"}} Event </h1>
       <span class="help-text">(Fields marked as * are mandatory)</span>
 
       <form [formGroup]="eventForm">
@@ -68,7 +68,9 @@
           (click)="next('step2','step1')">Next</button>
         <button type="button" *ngIf="step2" class="btn btn-primary float-right"
           (click)="next('step3','step2')">Next</button>
-        <button type="submit" *ngIf="step3" class="btn btn-primary float-right" (click)="createEvent()">Create
+        <button type="submit" *ngIf="step3&&!id" class="btn btn-primary float-right" (click)="createEvent()">Create
+          Event</button>
+        <button type="submit" *ngIf="step3&&id" class="btn btn-primary float-right" (click)="updateEvent()">Update
           Event</button>
       </form>
     </div>
